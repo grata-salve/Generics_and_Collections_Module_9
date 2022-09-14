@@ -8,12 +8,14 @@ import java.util.Objects;
 import static java.util.Objects.hash;
 
 public class MyHashMap<K, V> {
-    private int capacity = 100;
+    private final static int DEFAULT_CAPACITY = 100;
+    private final static int CAPACITY_DIFFERENCE = 50;
+
     @SuppressWarnings("unchecked")
-    private Entry<K, V>[] table = new Entry[capacity];
+    private Entry<K, V>[] table = new Entry[DEFAULT_CAPACITY];
 
     public void put(K newKey, V data) {
-        if (capacity + 10 >= table.length) {
+        if (DEFAULT_CAPACITY + 10 >= table.length) {
             increaseCapacity();
         }
 
@@ -87,12 +89,12 @@ public class MyHashMap<K, V> {
 
     @SuppressWarnings("unchecked")
     public void clear() {
-        table = new Entry[capacity];
+        table = new Entry[DEFAULT_CAPACITY];
     }
 
     public int size() {
         int size = 0;
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < DEFAULT_CAPACITY; i++) {
             if (table[i] != null) {
                 size++;
             }
@@ -101,13 +103,13 @@ public class MyHashMap<K, V> {
     }
 
     private void increaseCapacity() {
-        table = Arrays.copyOf(table, table.length * 5);
+        table = Arrays.copyOf(table, table.length + CAPACITY_DIFFERENCE);
     }
 
     @Override
     public String toString() {
         String show = "";
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < DEFAULT_CAPACITY; i++) {
             if (table[i] != null) {
                 Entry<K, V> newEntry = table[i];
                 while (newEntry != null) {

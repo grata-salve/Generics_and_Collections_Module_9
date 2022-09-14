@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class MyArrayList<E> implements List<E> {
     private final static int DEFAULT_CAPACITY = 5;
+    private final static int CAPACITY_DIFFERENCE = 10;
 
     private int size = 0;
     private Object[] elements = new Object[DEFAULT_CAPACITY];
@@ -45,7 +46,7 @@ public class MyArrayList<E> implements List<E> {
     }
 
     private void increaseCapacity() {
-        elements = Arrays.copyOf(elements, elements.length * 2);
+        elements = Arrays.copyOf(elements, elements.length + CAPACITY_DIFFERENCE);
     }
 
     @Override

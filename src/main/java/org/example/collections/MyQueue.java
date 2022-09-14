@@ -1,10 +1,12 @@
 package org.example.collections;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MyQueue<E> {
     private final static int DEFAULT_CAPACITY = 5;
-    private final static int INCREASE_CAPACITY = 10;
+    private final static int CAPACITY_DIFFERENCE = 10;
 
     private int front = 0;
     private int rear = -1;
@@ -36,15 +38,18 @@ public class MyQueue<E> {
             return;
         } else if (position == rear - 1) {
             rear--;
-        }
-        else if (position == front) {
+        } else if (position == front) {
             front++;
-        }
-        else {
-            if (rear - position + 1 >= 0) System.arraycopy(queue, position + 1, queue, position, rear - position);
+        } else {
+            if (rear - position + 1 >= 0) {
+                System.arraycopy(queue, position + 1, queue, position, rear - position);
+            }
             rear--;
         }
         size--;
+        if (isSizeDecreaseNeeded()) {
+            decreaseCapacity();
+        }
     }
 
     public void clear() {
@@ -59,12 +64,15 @@ public class MyQueue<E> {
     }
 
     public Object peek() {
-        return queue[front];
+        return queue[rear];
     }
 
     public Object poll() {
         if (front >= size) {
             increaseCapacity();
+        }
+        if (isSizeDecreaseNeeded()) {
+            decreaseCapacity();
         }
         Object result = queue[front];
         queue[front++] = null;
@@ -73,14 +81,27 @@ public class MyQueue<E> {
     }
 
     private void increaseCapacity() {
-        queue = Arrays.copyOf(queue, queue.length * 2);
+        queue = Arrays.copyOf(queue, queue.length + 2);
+    }
+
+    private void decreaseCapacity() {
+        queue = Arrays.copyOf(Arrays.stream(queue).filter(Objects::nonNull).toArray(),
+                (int) Arrays.stream(queue).filter(Objects::nonNull).count() + CAPACITY_DIFFERENCE);
+        rear = (int) Arrays.stream(queue).filter(Objects::nonNull).count();
+        front = 0;
+        size = rear;
+    }
+
+    private boolean isSizeDecreaseNeeded() {
+        return Arrays.stream(queue).filter(Objects::nonNull).count() <
+                Arrays.stream(queue).filter(Objects::isNull).count();
     }
 
     @Override
     public String toString() {
         String show = "";
-        for (int i = front; i <= rear; i++) {
-            show += queue[i] + " ";
+        for (Object o : Arrays.stream(queue).filter(Objects::nonNull).collect(Collectors.toList())) {
+            show += o + " ";
         }
         return show;
     }

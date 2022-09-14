@@ -67,13 +67,6 @@ public class Main {
         queue.remove(11);
         queue.remove(6);
 
-        queue.remove(5);
-        queue.remove(12);
-        queue.add(2);
-        queue.add(6);
-        queue.add(3);
-        System.out.println(queue);
-
         /////////
 
         MyStack<Integer> stack = new MyStack<>();
@@ -124,14 +117,3 @@ public class Main {
         System.out.println(hashMap);
     }
 }
-
-//TODO
-//Привіт. Навіщо у проекті HelloWorld?
-
-//Фактор збільшення коллекції - краще винести до констант. Зараз це "magic number".
-
-//Константи класу мають бути статичними. (DEFAULT_CAPACITY) Вони не повинні створюватися для кожного екземпляру класу.
-
-//Вертикальне форматування - константи від полів бажано відокремлювати пустою строкою.
-
-//У ArrayList та Stack і Queue розмір масиву збільшується, та ніколи не зменьшується. Для списку то нормально. Для черги та стеку не дуже.

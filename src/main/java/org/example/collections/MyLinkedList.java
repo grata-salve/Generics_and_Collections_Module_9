@@ -1,7 +1,6 @@
 package org.example.collections;
 
 public class MyLinkedList<E> implements List<E> {
-
     private Node<Object> head;
     private Node<Object> tail;
     private int size = 0;
@@ -70,7 +69,7 @@ public class MyLinkedList<E> implements List<E> {
         if (head == null) {
             return "LinkedList is empty";
         }
-        while(current != null) {
+        while (current != null) {
             show += current.data + " ";
             current = current.next;
         }
